@@ -6,6 +6,7 @@
     <title>TMCS Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shadecn@latest/dist/shadecn.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -30,10 +31,12 @@
                     <div class="vehicle-status connected">
                         <i class="icon connected-icon"></i>
                         <span>Connected Vehicles: <span id="connected-vehicles">0</span></span>
+                        <i class="fas fa-eye toggle-visibility" id="toggle-connected"></i>
                     </div>
                     <div class="vehicle-status disconnected">
                         <i class="icon disconnected-icon"></i>
                         <span>Disconnected Vehicles: <span id="disconnected-vehicles">0</span></span>
+                        <i class="fas fa-eye toggle-visibility" id="toggle-disconnected"></i>
                     </div>
                 </div>
             </div>

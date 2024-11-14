@@ -1,3 +1,214 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+.header {
+    padding: 20px;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+}
+
+.map-section, .alerts, .traffic-count, .incidents {
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+#traffic-chart {
+    height: 200px;
+    width: 100%;
+    border-radius: 8px;
+    background-color: #ddd;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.shadecn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.shadecn-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.shadecn-list li {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.vehicle-status {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.connected {
+    background-color: #e0f7fa;
+    color: #00796b;
+}
+
+.disconnected {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.connected-icon::before {
+    content: '🔗'; /* Example icon for connected vehicles */
+}
+
+.disconnected-icon::before {
+    content: '❌'; /* Example icon for disconnected vehicles */
+}
+
+.alert-tag, .incident-tag {
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    color: #333;
+    margin-left: 5px;
+}
+
+.high-priority {
+    background-color: #ffcccc;
+    color: #c62828;
+}
+
+.medium-priority {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.low-priority {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.traffic {
+    background-color: #e0f7fa;
+    color: #00796b;
+}
+
+.weather {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.roadwork {
+    background-color: #ffeeba;
+    color: #856404;
+}
+
+.safety {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.route-change {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Custom marker colors */
+.red-marker .leaflet-marker-icon {
+    filter: hue-rotate(180deg) saturate(5) brightness(0.8);
+}
+
+/* Eye icon styles */
+.toggle-visibility {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #00796b; /* Default color for the icon */
+}
+
+.toggle-visibility:hover {
+    color: #004d40; /* Darker color on hover */
+}
+JavaScript (script.js)
 // Include Leaflet JS
 const script = document.createElement('script');
 script.src = 'https://unpkg.com/leaflet/dist/leaflet.js';
@@ -43,22 +254,52 @@ script.onload = () => {
 
     let connectedCount = 0;
     let disconnectedCount = 0;
+    const connectedMarkers = [];
+    const disconnectedMarkers = [];
 
     locations.forEach(location => {
-        L.marker(location.coords, { icon: location.icon }).addTo(map)
+        const marker = L.marker(location.coords, { icon: location.icon }).addTo(map)
             .bindPopup(location.popup);
 
-        // Count connected and disconnected vehicles
+        // Store references to connected and disconnected markers
         if (location.icon === greenIcon) {
             connectedCount++;
+            connectedMarkers.push(marker);
         } else if (location.icon === redIcon) {
             disconnectedCount++;
+            disconnectedMarkers.push(marker);
         }
     });
 
     // Update the traffic count display
     document.getElementById('connected-vehicles').textContent = connectedCount;
     document.getElementById('disconnected-vehicles').textContent = disconnectedCount;
+
+    // Toggle visibility of connected markers
+    let connectedVisible = true;
+    document.getElementById('toggle-connected').addEventListener('click', () => {
+        connectedVisible = !connectedVisible;
+        connectedMarkers.forEach(marker => {
+            if (connectedVisible) {
+                marker.addTo(map);
+            } else {
+                map.removeLayer(marker);
+            }
+        });
+    });
+
+    // Toggle visibility of disconnected markers
+    let disconnectedVisible = true;
+    document.getElementById('toggle-disconnected').addEventListener('click', () => {
+        disconnectedVisible = !disconnectedVisible;
+        disconnectedMarkers.forEach(marker => {
+            if (disconnectedVisible) {
+                marker.addTo(map);
+            } else {
+                map.removeLayer(marker);
+            }
+        });
+    });
 
     // Step 2: Set up the API request for the Eiffel Tower marker using the server-side proxy
     const proxyUrl = '/proxy'; // Use your server-side proxy endpoint

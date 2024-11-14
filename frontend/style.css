@@ -192,3 +192,19 @@ button {
     cursor: pointer;
     border-radius: 4px;
 }
+
+/* Custom marker colors */
+.red-marker .leaflet-marker-icon {
+    filter: hue-rotate(180deg) saturate(5) brightness(0.8);
+}
+
+/* Eye icon styles */
+.toggle-visibility {
+    margin-left: 10px;
+    cursor: pointer;
+    color: #00796b; /* Default color for the icon */
+}
+
+.toggle-visibility:hover {
+    color: #004d40; /* Darker color on hover */
+}
