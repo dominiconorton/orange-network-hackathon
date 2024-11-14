@@ -1,8 +1,14 @@
-Create a file named server.js in your project directory and add the following code:
+// Load environment variables from .env file
+require('dotenv').config();
+
 const express = require('express');
 const fetch = require('node-fetch');
+const path = require('path');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; // Use PORT environment variable
+
+// Serve static files from the frontend directory
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.use(express.json());
 
@@ -13,7 +19,7 @@ app.post('/proxy', async (req, res) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer YOUR_ACCESS_TOKEN',
+                'Authorization': `Bearer ${process.env.ORANGE_API_TOKEN}`, // Use ORANGE_API_TOKEN environment variable
                 'accept': 'application/json'
             },
             body: JSON.stringify(req.body)
@@ -23,6 +29,10 @@ app.post('/proxy', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Error fetching data' });
     }
+});
+
+app.listen(port, () => {
+    console.log(`Proxy server running on port ${port}`);
 });
 
 app.listen(port, () => {
