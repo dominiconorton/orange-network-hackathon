@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMCS Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shadecn@latest/dist/shadecn.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header shadecn-bg-primary shadecn-text-light">
+        <h1>TMCS Dashboard</h1>
+    </div>
+    <div class="container shadecn-container">
+        <div class="map-section shadecn-card shadecn-shadow">
+            <h2>Traffic Map</h2>
+            <div id="map" class="shadecn-bg-light"></div>
+        </div>
+        <div class="stats-section shadecn-grid">
+            <div class="alerts shadecn-card shadecn-shadow">
+                <h2>Alerts Sent to Vehicles</h2>
+                <ul id="alerts-list" class="shadecn-list">
+                    <!-- Alerts will be dynamically added here -->
+                </ul>
+            </div>
+            <div class="traffic-count shadecn-card shadecn-shadow">
+                <h2>Connected Vehicle Count</h2>
+                <div id="traffic-chart" class="shadecn-bg-light">
+                    <div class="vehicle-status connected">
+                        <i class="icon connected-icon"></i>
+                        <span>Connected Vehicles: <span id="connected-vehicles">0</span></span>
+                    </div>
+                    <div class="vehicle-status disconnected">
+                        <i class="icon disconnected-icon"></i>
+                        <span>Disconnected Vehicles: <span id="disconnected-vehicles">0</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="incidents shadecn-card shadecn-shadow">
+                <h2>Incident List</h2>
+                <ul id="incident-list" class="shadecn-list">
+                    <!-- Incidents will be dynamically added here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="incident-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Send Alert to Connected Vehicles</h2>
+            <form id="alert-form">
+                <label for="alert-message">Alert Message:</label>
+                <input type="text" id="alert-message" name="alert-message" required>
+                
+                <label for="alert-type">Alert Type:</label>
+                <select id="alert-type" name="alert-type">
+                    <option value="Traffic">Traffic</option>
+                    <option value="Weather">Weather</option>
+                    <option value="Roadwork">Roadwork</option>
+                    <option value="Safety">Safety</option>
+                    <option value="Route Change">Route Change</option>
+                </select>
+                
+                <label for="alert-priority">Priority:</label>
+                <select id="alert-priority" name="alert-priority">
+                    <option value="High Priority">High Priority</option>
+                    <option value="Medium Priority">Medium Priority</option>
+                    <option value="Low Priority">Low Priority</option>
+                </select>
+                
+                <button type="submit">Send Alert</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
