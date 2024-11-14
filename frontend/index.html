@@ -54,6 +54,7 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Send Alert to Connected Vehicles</h2>
+            <h3 id="incident-subheading">Incident: None Selected</h3> <!-- Subheading for the incident -->
             <form id="alert-form">
                 <label for="alert-message">Alert Message:</label>
                 <input type="text" id="alert-message" name="alert-message" required>
@@ -76,6 +77,13 @@
                 
                 <button type="submit">Send Alert</button>
             </form>
+
+            <!-- Advice Section -->
+            <div id="advice-section">
+                <h3>Advice for Traffic Control Manager</h3>
+                <p id="advice-text">No advice generated yet.</p>
+                <button id="generate-advice-button">Generate Advice</button>
+            </div>
         </div>
     </div>
 

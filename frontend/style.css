@@ -160,11 +160,75 @@ h2 {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 5% auto; /* 15% from the top and centered */
+    margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%;
     border-radius: 8px;
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+#alert-form {
+    display: flex;
+    flex-direction: column; /* Stack fields vertically */
+}
+
+#alert-form label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+#alert-form input,
+#alert-form select,
+#alert-form button {
+    width: 100%; /* Full width */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+#alert-form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#alert-form button:hover {
+    background-color: #45a049;
+}
+
+#advice-section {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#advice-section h3 {
+    margin-top: 0;
+}
+
+#advice-text {
+    margin: 10px 0;
+    font-style: italic;
+    color: #555;
+}
+
+#generate-advice-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#generate-advice-button:hover {
+    background-color: #0056b3;
 }
 
 .close {
