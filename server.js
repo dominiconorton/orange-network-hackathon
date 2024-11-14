@@ -1,11 +1,18 @@
-// Load environment variables from .env file
-require('dotenv').config();
+import express from 'express';
+import fetch from 'node-fetch';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
-const express = require('express');
-const fetch = require('node-fetch');
-const path = require('path');
+// Load environment variables from .env file
+dotenv.config();
+
 const app = express();
-const port = process.env.PORT || 3000; // Use PORT environment variable
+const port = process.env.PORT || 3000;
+
+// Get the directory name of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Serve static files from the frontend directory
 app.use(express.static(path.join(__dirname, '../frontend')));
@@ -29,10 +36,6 @@ app.post('/proxy', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Error fetching data' });
     }
-});
-
-app.listen(port, () => {
-    console.log(`Proxy server running on port ${port}`);
 });
 
 app.listen(port, () => {
