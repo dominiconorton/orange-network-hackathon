@@ -47,6 +47,8 @@ h2 {
 .shadecn-list {
     list-style-type: none;
     padding: 0;
+    max-height: 200px; /* Adjust the height to fit 4 items */
+    overflow-y: auto; /* Add vertical scrollbar */
 }
 
 .shadecn-list li {
@@ -191,11 +193,6 @@ button {
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 4px;
-}
-
-/* Custom marker colors */
-.red-marker .leaflet-marker-icon {
-    filter: hue-rotate(180deg) saturate(5) brightness(0.8);
 }
 
 /* Eye icon styles */
